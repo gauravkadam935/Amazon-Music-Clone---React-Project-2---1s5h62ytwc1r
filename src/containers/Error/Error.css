@@ -1,0 +1,33 @@
+.alert-container{
+    border-radius: 8px;
+    border: thin solid #c40000;
+    margin-bottom: 14px;
+    margin-top : 4vh;
+    box-shadow: 0 0 0 4px #fcf4f4 inset;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    min-width : 300px;
+}
+.alert{
+    /* border : 1px solid black; */
+    width : 100%;
+    padding : 1em;
+    
+}
+.alert-text{
+    font-weight: 400;
+    font-size: 17px;
+    font-family: "Amazon Ember",Arial,sans-serif;
+    /* border: 1px solid black; */
+    text-align: left;
+    margin : 0.5rem;
+}
+.alert-message{
+    color : #111;
+    text-align: left;
+    margin : 0.5rem;
+}
+.warning-icon{
+    padding : 1em;
+}
