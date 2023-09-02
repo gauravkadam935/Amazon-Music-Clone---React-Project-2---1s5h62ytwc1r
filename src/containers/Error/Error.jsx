@@ -1,7 +1,7 @@
 import React from "react";
 import "./Error.css";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
-const Error = ({ msg }) => {
+const ErrorPage = ({ msg }) => {
   return (
     <div className="alert-container">
       <div className="warning-icon">
@@ -15,4 +15,4 @@ const Error = ({ msg }) => {
   );
 };
 
-export default Error;
+export default ErrorPage;

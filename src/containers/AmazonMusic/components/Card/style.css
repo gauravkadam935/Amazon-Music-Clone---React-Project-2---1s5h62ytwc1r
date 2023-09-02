@@ -1,3 +1,4 @@
+
 .sound_cloud-discover {
     width: 100%;
     padding-top: 3rem;
@@ -69,7 +70,7 @@
     color: red;
   }
 
-  .css-i4bv87-MuiSvgIcon-root {
+  /* .css-i4bv87-MuiSvgIcon-root {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -83,16 +84,16 @@
   
   .song-card:hover .css-i4bv87-MuiSvgIcon-root {
     display: block !important;
-  }
+  } */
   
-  .css-i4bv87-MuiSvgIcon-root::before {
+  /* .css-i4bv87-MuiSvgIcon-root::before {
     content: "\f144" !important; /* Unicode character for play icon, you can use an icon library */
-    font-family: "Font Awesome" !important; /* Make sure you have the icon font loaded */
-    color: white !important;
+  /*  font-family: "Font Awesome" !important; /* Make sure you have the icon font loaded */
+  /*  color: white !important;
     font-size: 24px !important;
     position: absolute !important;
     top: 50% !important;
     left: 50% !important;
     transform: translate(-50%, -50%) !important;
-  }
+  } */
 

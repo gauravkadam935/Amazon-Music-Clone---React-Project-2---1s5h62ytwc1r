@@ -4,11 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/dist/css/themes/splide-default.min.css";
+import Loader from "../Loader/Loader";
 
 const SearchedSongs = () => {
   const navigate = useNavigate();
+  const loading = useSelector(state=>state.selectedAlbum.loading);
   const searchedSongs = useSelector(state=>state.searchedSong.searchedSong);
   console.log(searchedSongs);
+  if(loading) return <Loader/>
   if(searchedSongs?.length==0) return <h1 style={{color:"white"}}>NO SONGS FOUND</h1>
   return (
     <Box
@@ -31,7 +34,7 @@ const SearchedSongs = () => {
           <Typography>
             <Typography sx={{}}></Typography>
             <Typography>
-              <Button sx={{ color: "white" }}>Show More</Button>
+              {/* <Button sx={{ color: "white" }}>Show More</Button> */}
             </Typography>
           </Typography>
         </Stack>

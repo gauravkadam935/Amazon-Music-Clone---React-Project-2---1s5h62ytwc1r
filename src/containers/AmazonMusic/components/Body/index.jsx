@@ -11,31 +11,36 @@ import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../../Loader/Loader";
 
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
+import ErrorPage from "../../../Error/Error";
 
-const Body = () => {  
-  
-  const showLoading = useSelector(state=>state.albums.showLoading);
-  if(showLoading) return <Box textAlign="center"><Loader /></Box>
-  return(
-      <Box marginBottom="20vh">
-        
-      <Box sx={{}}>
-      <Cards filter="happy" musicPlayList="Featured This Week" />
+const Body = () => {
+  const showLoading = useSelector((state) => state.albums.showLoading);
+  const error = useSelector((state) => state.albums.error);
+  if (showLoading)
+    return (
+      <Box textAlign="center">
+        <Loader />
       </Box>
-    <Box sx={{ minWidth: 250 }}>
-      <Cards  filter="sad" musicPlayList="Soul Soothers"/>
+    );
+  // if(!error) return (<ErrorPage error={error}/>)
+  return (
+    <Box marginBottom="140px">
+      <Box sx={{ minWidth: 200 }}>
+        <Cards filter="happy" musicPlayList="Featured This Week" />
+      </Box>
+      <Box sx={{ minWidth: 200 }}>
+        <Cards filter="sad" musicPlayList="Soul Soothers" />
       </Box>
 
-      <Box sx={{ minWidth: 250 }}>
-      <Cards  filter="romantic" musicPlayList="Start a Podcast Habit"/>
+      <Box sx={{ minWidth: 200 }}>
+        <Cards filter="romantic" musicPlayList="Start a Podcast Habit" />
       </Box>
 
-      <Box sx={{ minWidth: 250 }}>
-      <Cards filter="excited" musicPlayList="Trending Playlists"/>
+      <Box sx={{ minWidth: 200 }}>
+        <Cards filter="excited" musicPlayList="Trending Playlists" />
       </Box>
-      </Box>
-      
+    </Box>
   );
 };
 

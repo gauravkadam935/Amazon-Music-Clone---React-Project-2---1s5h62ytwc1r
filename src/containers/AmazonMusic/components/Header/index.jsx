@@ -7,7 +7,6 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -15,27 +14,26 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import HomeIcon from "@mui/icons-material/Home";
 import SensorsIcon from "@mui/icons-material/Sensors";
+import WifiTetheringIcon from "@mui/icons-material/WifiTethering";
 import HeadsetMicIcon from "@mui/icons-material/HeadsetMic";
 import { Fab } from "@mui/material";
 import SearchComponent from "./components/SearchBar";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-
-
+import { deepOrange } from "@mui/material/colors";
+import { logOut, setIsUpdate } from "../../../../App/features/userSlice";
 import LINKS from "../../link";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 const pages = ["Home", "Podcast", "Library"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
-// const style={
-//   backgroundColor:"black",
-//   &:hover:{
-//     color:"#279EFF",
-//   }
-// }
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isLogin = useSelector((state) => state.user.isLogin);
+  const user = useSelector((state) => state.user.user);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -57,15 +55,20 @@ function ResponsiveAppBar() {
   };
 
   const [anchorEl, setAnchorEl] = useState(null);
- 
+
   const handleOpenMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
-
-  const handlechange = (e) => {
+  const handleLogOut = () => {
+    dispatch(logOut());
+    navigate("/");
+  };
+  const handleUpdate = () => {
+    dispatch(setIsUpdate());
+    navigate("/login");
   };
   return (
     <AppBar
@@ -111,7 +114,7 @@ function ResponsiveAppBar() {
             <IconButton
               sx={{
                 p: 0,
-                display: { xs: "block", s: "block", md: "none", l: "none" },
+                display: { xs: "block", s: "block", md: "none", lg: "none" },
               }}
             >
               <img
@@ -123,68 +126,75 @@ function ResponsiveAppBar() {
             </IconButton>
           </Typography>
           <Box sx={{ display: "flex", gap: 2 }}>
-          <Tooltip title="Home" placement="bottom">
-            <Button
-              color="primary"
-              variant="extended"
-              sx={{ hover: { backgroundColor: "#a9a9a9" } }}
-              onClick={() => handleClick("home")}
-            >
-              <HomeIcon />
-              <Typography
-                variant="body2"
+            <Tooltip title="Home" placement="bottom">
+              <Button
+                color="primary"
+                variant="extended"
                 sx={{
-                  display: { xs: "none", sm: "none", md: "flex", lg: "flex" },
+                  ":hover": { color: "#25d1da" },
+                  ":focus": { color: "#25d1da" },
                 }}
+                onClick={() => handleClick("home")}
               >
-                Home
-              </Typography>
-            </Button>
-            </Tooltip>
-            <Tooltip title="Podcast" placement="bottom">
-            <Button
-              color="primary"
-              variant="extended"
-              sx={{}}
-              onClick={() => handleClick("podcasts")}
-            >
-              <SensorsIcon />
-              <Typography
-                variant="body2"
-                sx={{
-                  display: { xs: "none", sm: "none", md: "flex", lg: "flex" },
-                }}
-              >
-                Podcast
-              </Typography>
-            </Button>
-            </Tooltip>
-
-            {/* <Button
-              color="primary" variant="extended"
-              sx={{ color: "white", my: 1, bgcolor: "#000" }}
-            >
-              <HeadsetMicIcon />
-              <Typography
+                <HomeIcon sx={{ mr: "5px" }} />
+                <Typography
+                  fontSize="16"
+                  fontWeight="700"
                   variant="body2"
                   sx={{
                     display: { xs: "none", sm: "none", md: "flex", lg: "flex" },
                   }}
                 >
-                  Library
+                  Home
                 </Typography>
-            </Button> */}
-
+              </Button>
+            </Tooltip>
+            <Tooltip title="Podcast" placement="bottom">
+              <Button
+                color="primary"
+                variant="extended"
+                sx={{
+                  fontWeight: "800",
+                  ":hover": { color: "#25d1da" },
+                  ":focus": { color: "#25d1da" },
+                }}
+                onClick={() => handleClick("podcasts")}
+              >
+                <WifiTetheringIcon sx={{ mr: "5px" }} />
+                <Typography
+                  fontSize="16"
+                  fontWeight="700"
+                  variant="body2"
+                  sx={{
+                    display: { xs: "none", sm: "none", md: "flex", lg: "flex" },
+                  }}
+                >
+                  Podcast
+                </Typography>
+              </Button>
+            </Tooltip>
             <Tooltip title="Library" placement="right">
-              <Button variant="extended"  sx={{bgcolor:"black",hover:{color:"red"}}} onClick={handleOpenMenu}>
+              <Button
+                color="primary"
+                variant="extended"
+                sx={{
+                  ":hover": { color: "#25d1da" },
+                  ":focus": { color: "#25d1da" },
+                }}
+                onClick={handleOpenMenu}
+              >
                 <HeadsetMicIcon
                   sx={{ color: "#FFF", mr: 1 }}
                   fontSize="medium"
                 />
-                {/* sx={{ ...HEADER_BTN_DISPLAY }} */}
-                <Typography variant="body2"  sx={{
+                <Typography
+                  fontSize="16"
+                  fontWeight="700"
+                  variant="body2"
+                  sx={{
                     display: { xs: "none", sm: "none", md: "flex", lg: "flex" },
-                  }} >
+                  }}
+                >
                   Library
                 </Typography>
                 <KeyboardArrowDownIcon
@@ -213,14 +223,20 @@ function ResponsiveAppBar() {
                   key={"music"}
                   color="primary"
                   divider="true"
-                  sx={{ color: "hsl(0, 0%, 10%)" }}
+                  sx={{ color: "black" }}
+                  onClose={handleCloseMenu}
+                  onClick={() => handleClick("libraryMusic")}
                 >
-                  <IconButton onClick={() => handleClick("libraryMusic")}>
+                  <IconButton>
                     <Typography varian="body1">Music</Typography>
                   </IconButton>
                 </MenuItem>
-                <MenuItem key={"Podcasts"}>
-                  <IconButton onClick={() => handleClick("libraryPodcasts")}>
+                <MenuItem
+                  key={"Podcasts"}
+                  onClose={handleCloseMenu}
+                  onClick={() => handleClick("libraryPodcasts")}
+                >
+                  <IconButton>
                     <Typography varian="body1">Podcasts</Typography>
                   </IconButton>
                 </MenuItem>
@@ -239,7 +255,13 @@ function ResponsiveAppBar() {
 
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                {isLogin ? (
+                  <Avatar sx={{ bgcolor: deepOrange[500] }}>
+                    {user?.name?.charAt(0) || ""}
+                  </Avatar>
+                ) : (
+                  <Avatar alt="Remy Sharp" src="" />
+                )}
               </IconButton>
             </Tooltip>
             <Menu
@@ -259,8 +281,30 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               <MenuItem onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">Log Out</Typography>
+                {isLogin ? (
+                  <Typography textAlign="center" onClick={handleLogOut}>
+                    Log Out
+                  </Typography>
+                ) : (
+                  <Typography
+                    textAlign="center"
+                    onClick={() => navigate("/login")}
+                  >
+                    Log IN
+                  </Typography>
+                )}
               </MenuItem>
+              {isLogin && (
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography
+                    textAlign="center"
+                    onClose={handleCloseUserMenu}
+                    onClick={handleUpdate}
+                  >
+                    Update Password
+                  </Typography>
+                </MenuItem>
+              )}
             </Menu>
           </Box>
         </Toolbar>

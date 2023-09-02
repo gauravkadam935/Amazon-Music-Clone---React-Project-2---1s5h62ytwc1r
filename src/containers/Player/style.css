@@ -1,33 +1,25 @@
-.css-4nk7mp{
-  height: 0 !important;
-}
 .volume {
-    display: flex;
-    align-items: center;
-  }
-  
-  .volume button {
-    margin: 0;
-  }
-  
-  .progress {
-    background-color: black;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    
-    margin-left : 2px;
-    margin-right : 2px;
-  }
-  
-  /* time */
-  .time {
-    color: #FFF;
-    font-size: 13px;
-    line-height: 46px;
-  }
-  
-  .time.current {
-    color: #FFF;
-  }
-  
+  display: flex;
+  align-items: center;
+}
+
+.volume button {
+  margin: 0;
+}
+
+.progress {
+  /* background-color: black; */
+  display: flex;
+  align-items: center;
+}
+
+/* time */
+.time {
+  color: #fff;
+  font-size: 5px;
+  /* line-height: 46px; */
+}
+
+.time.current {
+  color: #fff;
+}

@@ -1,4 +1,5 @@
 import * as React from "react";
+import "./style.css";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -20,10 +21,10 @@ import SongList from "./songList";
 import CustomTheme from "../AmazonMusic/components/customThing/CustomThing";
 const primaryColor = "hsl(0, 0%, 100%)";
 const secondaryColor = "hsl(183, 71%, 50%)";
-import {useSelector,useDispatch} from 'react-redux'
-import {setPlayerPlaying} from '../../App/features/selectedAlbumSlice'
+import { useSelector, useDispatch } from "react-redux";
+import { setPlayerPlaying } from "../../App/features/selectedAlbumSlice";
 import { useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
 
 const SongDetails = ({
   title,
@@ -32,13 +33,14 @@ const SongDetails = ({
   songs,
   duration,
   releaseDate,
+  openModal,
 }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isLogin = useSelector((state) => state.user.isLogin);
   const isPlaying = useSelector((state) => state.selectedAlbum.playerPlaying);
 
-  useEffect(()=>{
-
-  },[isPlaying]);
+  useEffect(() => {}, [isPlaying]);
 
   const playPause = () => {
     dispatch(setPlayerPlaying(isPlaying));
@@ -48,10 +50,9 @@ const SongDetails = ({
     <>
       <Card
         sx={{
-          display: { xs: "block", sm: "block", md: "flex", xl: "flex" },
+          display: { xs: "block", sm: "block", md: "flex", lg: "flex" },
           margin: "50px",
-          textAlign: "center",
-          bgcolor:'inherit'
+          bgcolor: "inherit",
         }}
       >
         <CardMedia
@@ -64,68 +65,83 @@ const SongDetails = ({
           primaryColor={primaryColor}
           secondaryColor={secondaryColor}
         >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <CardContent>
-            <Typography component="div" variant="subtitle1" color="secondary">
-              ALBUM
-            </Typography>
-            <Typography component="div" variant="h5" color="primary">
-              {title}
-            </Typography>
-            <Typography
-              variant="subtitle1"
-              component="div"
-              color="primary"
+          <Box
+            sx={{
+              display: { xs: "flex", md: "flex", lg: "block", xl: "block" },
+              flexDirection: "column",
+              alignItems: {
+                xs: "center",
+                sm: "center",
+                md: "flex-start",
+                lg: "flex-start",
+              },
+            }}
+          >
+            <CardContent
+              sx={{
+                display: { xs: "flex", md: "flex", lg: "block", xl: "block" },
+                flexDirection: "column",
+                alignItems: {
+                  xs: "center",
+                  sm: "center",
+                  md: "flex-start",
+                  lg: "flex-start",
+                },
+              }}
             >
-              {artist?.map((e)=>e.name).join(", ")}
-            </Typography>
-            <Typography
-              variant="subtitle1"
-              color="primary"
-              component="div"
-            >
-              {songs?.length}
-              {" |"}
-              {duration}
-              {" |"}
-              {releaseDate}
-            </Typography>
-          </CardContent>
-          <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>
-            
-              <Fab variant="extended" color="secondary" onClick={playPause}>
-              {isPlaying ? (
-                <PauseIcon color="primary" fontSize="large"/> 
-              ) : (
-                <PlayArrowIcon color="primary" fontSize="large"/>
-              )}
-              {isPlaying ? (
-                "Pause"
-              ) : (
-                "Play"
-              )}
+              <Typography component="div" variant="subtitle1" color="secondary">
+                ALBUM
+              </Typography>
+              <Typography component="div" variant="h5" color="primary">
+                {title}
+              </Typography>
+              <Typography variant="subtitle1" component="div" color="primary">
+                {artist?.map((e) => e.name).join(", ")}
+              </Typography>
+              <Typography variant="subtitle1" color="primary" component="div">
+                {songs?.length}
+                {" |"}
+                {duration}
+                {" |"}
+                {new Date(releaseDate).toLocaleString()}
+              </Typography>
+            </CardContent>
+            <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>
+              <Fab
+                variant="extended"
+                size="small"
+                color="secondary"
+                onClick={playPause}
+              >
+                {isPlaying ? (
+                  <PauseIcon color="#333" fontSize="medium" />
+                ) : (
+                  <PlayArrowIcon color="#333" fontSize="medium" />
+                )}
+                {isPlaying ? "Pause" : "Play"}
               </Fab>
-            
-            <IconButton aria-label="play/pause" color="primary">
-              <AddIcon />
-            </IconButton>
-            <IconButton aria-label="next" color="primary">
-              <SensorsIcon />
-            </IconButton>
-            <IconButton aria-label="next" color="primary" >
-              <ShareIcon />
-            </IconButton>
+              {/* onClick={()=>addIconButton(song)} */}
+              <IconButton
+                aria-label="play/pause"
+                color="primary"
+                onClick={() => navigate("/upcoming")}
+              >
+                <AddIcon />
+              </IconButton>
+              {/* <IconButton aria-label="next" color="primary">
+                <SensorsIcon />
+              </IconButton> */}
+              <IconButton
+                aria-label="next"
+                color="primary"
+                onClick={() => openModal()}
+              >
+                <ShareIcon />
+              </IconButton>
+            </Box>
           </Box>
-        </Box>
         </CustomTheme>
       </Card>
-
       <SongList songs={songs} />
       {/* <Premium open={open} setOpen={close} /> */}
     </>

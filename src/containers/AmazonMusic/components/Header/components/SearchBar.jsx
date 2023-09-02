@@ -1,13 +1,13 @@
 import { Box } from "@mui/material";
 import React from "react";
-import axios from 'axios';
+import axios from "axios";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { useState } from "react";
-import { config,SEARCH_URL } from "../../../../../utils/customHook";
+import { config, SEARCH_URL } from "../../../../../utils/customHook";
 import { useNavigate } from "react-router-dom";
 
 import { getsearchedSong } from "../../../../../App/features/searchSlice";
@@ -52,53 +52,50 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-
-
-
 const SearchComponent = () => {
   const dispatch = useDispatch();
 
+  const songs = useSelector((state) => state.searchedSong.searchedSong);
+  const [input, setInput] = useState("");
+  const [searchedSong, setSearchedSong] = useState([]);
+  const navigate = useNavigate();
+  const searchObject = JSON.stringify({ title: input });
 
-  const songs = useSelector(state=>state.searchedSong.searchedSong);
-  const [input,setInput] = useState("");
-  const [searchedSong,setSearchedSong]=useState([]);
-   const navigate = useNavigate();
-   const searchObject = JSON.stringify({title:input})
-
-  function fetchCall(){
-    try{
-    axios
-    .get(`${SEARCH_URL}${searchObject}`,config)
-    .then((res)=>{
-      dispatch(getsearchedSong({searchedSong:res.data.data}));
-    })
-  }catch(error){
-    console.log(error);
-  }
+  function fetchCall() {
+    try {
+      axios.get(`${SEARCH_URL}${searchObject}`, config).then((res) => {
+        dispatch(getsearchedSong({ searchedSong: res.data.data }));
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  const handleChange = (e)=>{
-    setInput(e.target.value)
-  }
-  const handleSubmit=(e)=>{
+  const handleChange = (e) => {
+    setInput(e.target.value);
+  };
+  const handleSubmit = (e) => {
     e.preventDefault();
     fetchCall();
     navigate("/searchedsongs");
-  }
+  };
   // console.log(songs);
   return (
     <form onSubmit={handleSubmit}>
-    <Search sx={{bgcolor:'white',color:'black'}} onClick={()=>navigate("/search")}>
-      <SearchIconWrapper>
-        <SearchIcon />
-      </SearchIconWrapper>
-      <StyledInputBase
-        placeholder="Search…"
-        inputProps={{ "aria-label": "search" }}
-        value={input}
-        onChange={handleChange}
-      />
-    </Search>
+      <Search
+        sx={{ bgcolor: "white", color: "#434242" }}
+        onClick={() => navigate("/search")}
+      >
+        <SearchIconWrapper>
+          <SearchIcon />
+        </SearchIconWrapper>
+        <StyledInputBase
+          placeholder="Search…"
+          inputProps={{ "aria-label": "search" }}
+          value={input}
+          onChange={handleChange}
+        />
+      </Search>
     </form>
   );
 };

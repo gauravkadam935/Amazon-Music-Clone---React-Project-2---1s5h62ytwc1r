@@ -12,18 +12,22 @@ import SkipNextIcon from "@mui/icons-material/SkipNext";
 import Replay10Icon from "@mui/icons-material/Replay10";
 import Forward10Icon from "@mui/icons-material/Forward10";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import { useNavigate } from "react-router-dom";
 
-import {setAudioTrackIndex, setPlayerPlaying} from '../../App/features/selectedAlbumSlice'
-import CustomTheme from '../AmazonMusic/components/customThing/CustomThing';
+import {
+  setAudioTrackIndex,
+  setPlayerPlaying,
+} from "../../App/features/selectedAlbumSlice";
+import CustomTheme from "../AmazonMusic/components/customThing/CustomThing";
 
 import { formatTime } from "./formatTime";
 import Animation from "./Animation";
 
 import { useSelector, useDispatch } from "react-redux";
 
-
 import "./style.css";
 import "./progresbar.css";
+import { Navigate } from "react-router-dom";
 
 const smallScreenDisplay = {
   display: { xs: "none", sm: "none", md: "inline", lg: "inline" },
@@ -39,14 +43,14 @@ const smallScreenPlayerDisplay = {
 };
 
 const Player = () => {
-
+  const navigate = useNavigate();
   const { selectedAlbum } = useSelector((state) => state.selectedAlbum);
   const audioTrack = selectedAlbum?.songs;
   const dispatch = useDispatch();
-  const currentTrackIndex = useSelector((state) => state.selectedAlbum.audioTrackIndex);
+  const currentTrackIndex = useSelector(
+    (state) => state.selectedAlbum.audioTrackIndex
+  );
   const isPlaying = useSelector((state) => state.selectedAlbum.playerPlaying);
-
-
 
   const [anchorEl, setAnchorEl] = useState(null);
   // const [isPlaying, setIsPlaying] = useState(false);
@@ -146,201 +150,207 @@ const Player = () => {
   };
 
   return (
-
     <>
-        <CustomTheme
-      primaryColor={"#FFF"}
-      secondaryColor={"hsla(0, 0%, 100%, 0.15)"}
-    >
-      <audio
-        src={audioTrack[currentTrackIndex].audio_url}
-        ref={audioRef}
-        onLoadedMetadata={onLoadedMetadata}
-        onEnded={nextSong}
-      />
-
-      <Box
-        sx={{
-          borderBottom:"10px solid black",
-          position: "fixed",
-          bottom: "0px",
-          left: 0,
-          right: 0,
-          // height: "0px",
-          backgroundColor: "black",
-          zIndex: 1000,
-          alignItems:"center",
-        }}
+      <CustomTheme
+        primaryColor={"#FFF"}
+        secondaryColor={"hsla(0, 0%, 100%, 0.15)"}
       >
-        <div className="progress">
-          <span className="time current">{formatTime(timeProgress)}</span>
-          <input
-            type="range"
-            defaultValue="0"
-            ref={progressBarRef}
-            onChange={handleProgressChange}
-          />
-          <span className="time">{formatTime(duration)}</span>
-        </div>
-        <Stack
+        <audio
+          src={audioTrack[currentTrackIndex].audio_url}
+          ref={audioRef}
+          onLoadedMetadata={onLoadedMetadata}
+          onEnded={nextSong}
+        />
+
+        <Box
           sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-betwween",
+            position: "fixed",
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 100,
             alignItems: "center",
-            gap: { xs: "0.5em", sm: "0.5em", md: "1em", lg: "1em" },
-            bgcolor:"black",
           }}
         >
-          <Box
-            component="div"
-            flex={4}
+          <div className="progress">
+            {/* <span className="time current">{formatTime(timeProgress)}</span> */}
+            <input
+              type="range"
+              defaultValue="0"
+              ref={progressBarRef}
+              onChange={handleProgressChange}
+            />
+            {/* <span className="time">{formatTime(duration)}</span> */}
+          </div>
+          <Stack
             sx={{
-              textAlign: "left",
-              ml: 2,
+              height: 70,
               display: "flex",
               flexDirection: "row",
-              justifyContent: "flex-start",
+              justifyContent: "space-betwween",
               alignItems: "center",
-              gap: "0.5em",
+              gap: { xs: "0.5em", sm: "0.5em", md: "1em", lg: "1em" },
+              backgroundColor: "black",
             }}
           >
-            {isPlaying ? (
-              <Animation />
-            ) : (
-              <img
-                src={audioTrack[currentTrackIndex].thumbnail}
-                width="35px"
-                height="35px"
-              />
-            )}
-            <Box component="div" sx={{ textAlign: "left" }}>
-              <p
-                style={{
-                  color: "#FFF",
-                  textAlign: "left",
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                  textOverflow: "ellipsis",
-                  fontSize: "1.3rem",
-                  width: "150px",
-                  margin: 0,
-                }}
-              >
-                {audioTrack[currentTrackIndex].title}
-              </p>
-              <p
-                style={{
-                  color: "#FFF",
-                  textAlign: "left",
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                  textOverflow: "ellipsis",
-                  fontSize: "1rem",
-                  width: "150px",
-                  margin: 0,
-                }}
-              >
-                {audioTrack[currentTrackIndex].title}
-              </p>
-            </Box>
-          </Box>
-          <Box
-            component="div"
-            flex={10}
-            sx={{
-              display: "flex",
-              ...smallScreenPlayerDisplay,
-              gap: "0.5em",
-              alignItems: "center",
-              textAlign: "left",
-              color: "primary",
-            }}
-          >
-            <IconButton
-              color="primary"
-              sx={{ ...smallScreenDisplay }}
-              onClick={repeatTrack}
+            <Box
+              component="div"
+              flex={4}
+              sx={{
+                textAlign: "left",
+                ml: 2,
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                gap: "1em",
+              }}
             >
-              <RepeatIcon />
-            </IconButton>
-            <IconButton
-              color="primary"
-              sx={{ ...smallScreenDisplay }}
-              onClick={rewind_10_sec}
-            >
-              <Replay10Icon />
-            </IconButton>
-            <IconButton
-              color="primary"
-              sx={{ ...smallScreenDisplay }}
-              onClick={prevSong}
-            >
-              <SkipPreviousIcon />
-            </IconButton>
-            <Fab color="secondary" size="small" onClick={playPause}>
               {isPlaying ? (
-                <PauseIcon color="primary" fontSize="large" />
+                <Animation />
               ) : (
-                <PlayArrowIcon color="primary" fontSize="large" />
+                <img
+                  src={audioTrack[currentTrackIndex].thumbnail}
+                  width="45px"
+                  height="45px"
+                  style={{ borderRadius: "5px" }}
+                />
               )}
-            </Fab>
-            <IconButton color="primary" onClick={nextSong}>
-              <SkipNextIcon />
-            </IconButton>
-            <IconButton
-              color="primary"
-              sx={{ ...smallScreenDisplay }}
-              onClick={forward_10_sec}
+              <Box component="div" sx={{ textAlign: "left" }}>
+                <p
+                  style={{
+                    color: "#FFF",
+                    textAlign: "left",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                    fontSize: "1.0rem",
+                    width: "150px",
+                    margin: 0,
+                  }}
+                >
+                  {audioTrack[currentTrackIndex].title}
+                </p>
+                <p
+                  style={{
+                    color: "grey",
+                    textAlign: "left",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                    fontSize: "0.7rem",
+                    width: "150px",
+                    margin: 0,
+                  }}
+                >
+                  {audioTrack[currentTrackIndex].title}
+                </p>
+              </Box>
+            </Box>
+            <Box
+              component="div"
+              flex={10}
+              sx={{
+                display: "flex",
+                ...smallScreenPlayerDisplay,
+                // gap: "0.5em",
+                alignItems: "center",
+                textAlign: "left",
+                color: "primary",
+              }}
             >
-              <Forward10Icon />
-            </IconButton>
-            <IconButton color="primary" sx={{ ...smallScreenDisplay }}>
-              <ShuffleIcon />
-            </IconButton>
-          </Box>
-          <Box component="div" flex={4} sx={{ textAlign: "right" }}>
-            <IconButton color="primary" sx={{ mr: 3 }} onClick={openVolumeMenu}>
-              <VolumeUpIcon />
-            </IconButton>
-            <Menu
-              id="basic-menu"
-              anchorEl={anchorEl}
-              open={!!anchorEl}
-              onClose={closeVolumeMenu}
-              MenuListProps={{
-                "aria-labelledby": "basic-button",
-              }}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              transformOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-            >
-              <CustomTheme primaryColor={"#333"} secondaryColor={"#FFF"}>
-                <MenuItem sx={{ color: "primary" }}>
-                  <input
-                    type="range"
-                    defaultValue="0"
-                    min={0}
-                    max={100}
-                    ref={audioVolumeRef}
-                    id="audioVolume"
-                    style={{ width: "100px" }}
-                    onChange={changeVolumeSliderValue}
-                  />
-                </MenuItem>
-              </CustomTheme>
-            </Menu>
-          </Box>
-        </Stack>
-      </Box>
-    </CustomTheme>
+              <IconButton
+                color="primary"
+                sx={{ ...smallScreenDisplay }}
+                onClick={repeatTrack}
+              >
+                <RepeatIcon />
+              </IconButton>
+              <IconButton
+                color="primary"
+                sx={{ ...smallScreenDisplay }}
+                onClick={rewind_10_sec}
+              >
+                <Replay10Icon />
+              </IconButton>
+              <IconButton
+                color="primary"
+                sx={{ ...smallScreenDisplay }}
+                onClick={prevSong}
+              >
+                <SkipPreviousIcon />
+              </IconButton>
+              <Fab color="secondary" size="small" onClick={playPause}>
+                {isPlaying ? (
+                  <PauseIcon color="primary" fontSize="large" />
+                ) : (
+                  <PlayArrowIcon color="primary" fontSize="large" />
+                )}
+              </Fab>
+              <IconButton color="primary" onClick={nextSong}>
+                <SkipNextIcon />
+              </IconButton>
+              <IconButton
+                color="primary"
+                sx={{ ...smallScreenDisplay }}
+                onClick={forward_10_sec}
+              >
+                <Forward10Icon />
+              </IconButton>
+              <IconButton
+                color="primary"
+                sx={{ ...smallScreenDisplay }}
+                onClick={() => navigate("/upcoming")}
+              >
+                <ShuffleIcon />
+              </IconButton>
+            </Box>
+            <Box component="div" flex={4} sx={{ textAlign: "right" }}>
+              <IconButton
+                color="primary"
+                sx={{ mr: 3 }}
+                onClick={openVolumeMenu}
+              >
+                <VolumeUpIcon />
+              </IconButton>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={!!anchorEl}
+                onClose={closeVolumeMenu}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                transformOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+              >
+                <CustomTheme primaryColor={"#333"} secondaryColor={"#FFF"}>
+                  <MenuItem sx={{ color: "primary" }}>
+                    <input
+                      type="range"
+                      defaultValue="0"
+                      min={0}
+                      max={100}
+                      ref={audioVolumeRef}
+                      id="audioVolume"
+                      style={{ width: "100px" }}
+                      onChange={changeVolumeSliderValue}
+                    />
+                  </MenuItem>
+                </CustomTheme>
+              </Menu>
+            </Box>
+          </Stack>
+        </Box>
+      </CustomTheme>
     </>
-  )
-}
+  );
+};
 
 export default Player;

@@ -17,9 +17,9 @@ const list2 = [
   "Women in Music",
   "Amazon Music Originals",
 ];
-const filter ={
-  mood:"happy",
-}
+const filter = {
+  mood: "happy",
+};
 
 import { useSelector } from "react-redux";
 import { useState } from "react";
@@ -39,7 +39,9 @@ const SearchPage = () => {
         }}
       >
         <Typography>
-          <Button sx={{ color: "white" }}>Podcasts</Button>
+          <Button sx={{ color: "white" }} onClick={() => navigate("/podcasts")}>
+            Podcasts
+          </Button>
         </Typography>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
           <Typography variant="h6" color="white">
@@ -60,7 +62,7 @@ const SearchPage = () => {
                 fontWeight: 800,
                 color: "white",
               }}
-              onClick={()=>navigate(`/Allsongs/${filter.mood="happy"}`)}
+              onClick={() => navigate(`/Allsongs/${(filter.mood = "happy")}`)}
             >
               BE HAPPY
             </Button>
@@ -74,7 +76,9 @@ const SearchPage = () => {
                 fontWeight: 800,
                 color: "white",
               }}
-              onClick={()=>navigate(`/Allsongs/${filter.mood="romantic"}`)}
+              onClick={() =>
+                navigate(`/Allsongs/${(filter.mood = "romantic")}`)
+              }
             >
               Love & Heartbreak
             </Button>
@@ -88,7 +92,7 @@ const SearchPage = () => {
                 fontWeight: 800,
                 color: "white",
               }}
-              onClick={()=>navigate(`/Allsongs/${filter.mood="sad"}`)}
+              onClick={() => navigate(`/Allsongs/${(filter.mood = "sad")}`)}
             >
               Party Time
             </Button>
@@ -102,7 +106,7 @@ const SearchPage = () => {
                 fontWeight: 800,
                 color: "white",
               }}
-              onClick={()=>navigate(`/Allsongs/${filter.mood="excited"}`)}
+              onClick={() => navigate(`/Allsongs/${(filter.mood = "excited")}`)}
             >
               Work Out
             </Button>
@@ -116,7 +120,7 @@ const SearchPage = () => {
                 fontWeight: 800,
                 color: "white",
               }}
-              onClick={()=>navigate(`/Allsongs/${filter.mood="happy"}`)}
+              onClick={() => navigate(`/Allsongs/${(filter.mood = "happy")}`)}
             >
               Travel
             </Button>
@@ -130,8 +134,9 @@ const SearchPage = () => {
             textAlign="center"
             sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}
           >
-            {list2.map((ele) => (
+            {list2.map((ele, index) => (
               <Button
+                key={index}
                 sx={{
                   backgroundImage:
                     "linear-gradient(to right,green,blue,indigo,violet)",
@@ -141,6 +146,7 @@ const SearchPage = () => {
                   fontWeight: 800,
                   color: "white",
                 }}
+                onClick={() => navigate("/upcoming")}
               >
                 {ele}
               </Button>

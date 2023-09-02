@@ -8,6 +8,7 @@ const LINKS = {
     Allsongs:"/Allsongs",
     searchSong:"/searchedsongs",
     signup:"/signup",
+    categories:"/podcasts/categories",
   };
   
   export default LINKS;

@@ -1,64 +1,88 @@
 import React, { useState } from "react";
-// import "./register.css"
+import "./register.css";
 import { useNavigate } from "react-router-dom";
-import { useSelector,useDispatch } from "react-redux";
-import { setUser } from "../../App/features/userSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { setIsLogin, setUser } from "../../App/features/userSlice";
+import TextField from "@mui/material/TextField";
+
 const Register = () => {
   const dispatch = useDispatch();
-  // const user = useSelector(state=>state.user);
+  const isLogin = useSelector((state) => state.user.isLogin);
+
   const navigate = useNavigate();
-  const [name,setName] = useState("");
-  const [email,setEmail] = useState('');
-    const [password,setPassword] = useState('');
-    const [error,setError] = useState(false);
-    const [errorName ,setErrorName] = useState(false);
-    const [errorEmail ,setErrorEmail] = useState(false);
-    const [errorPassword ,setErrorPassword] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
+  const [errorName, setErrorName] = useState(false);
+  const [errorEmail, setErrorEmail] = useState(false);
+  const [errorPassword, setErrorPassword] = useState(false);
 
+  const handleSignUp = async () => {
+    const url = "https://academics.newtonschool.co/api/v1/user/signup";
 
-    const handleSignUp = async () => {
-      const url = "https://academics.newtonschool.co/api/v1/user/signup";
-  
-      try {
-        const response = await fetch(url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            projectId: "1s5h62ytwc1r",
-          },
-          body: JSON.stringify({name,password,email,appType: 'music'}),
-        });
-  
-        const responseData = await response.json();
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          projectId: "1s5h62ytwc1r",
+        },
+        body: JSON.stringify({ name, password, email, appType: "music" }),
+      });
+
+      const responseData = await response.json();
+      console.log(responseData);
+      if (responseData.status === "fail") {
+        alert(responseData.message);
+      } else {
+        dispatch(setIsLogin(true));
+        dispatch(setUser(responseData));
         navigate("/login");
-        console.log(responseData);
-        // dispatch(setUser(responseData));
-      } catch (error) {
-        console.error("Error:", error);
       }
-    };
-
-    const register = (e) =>{
-      e.preventDefault();
-      if(name=="" || email=="" || password==""){
-        setError(true);
-        return
-      }
-      if(name.length<4){
-       setErrorName(true);
-       return 
-      }
-      if(!email.includes("@")){
-       setErrorEmail(true);
-       return 
-      }
-      if(password<5){
-       setErrorPassword(true);
-       return 
-      }
-        handleSignUp();
-
+    } catch (error) {
+      alert(error);
+      console.error("Error:", error);
     }
+  };
+  const validation = (name, email, password) => {
+    console.log(name, email, password);
+    let errorName = name.length < 4 ? true : false;
+    let errorEmail = !email.includes("@") ? true : false;
+    let errorPassword = password.length < 5 ? true : false;
+    console.log(errorName, errorEmail, errorPassword);
+    // if (!errorName && !errorEmail && !errorPassword) {
+    //   return true;
+    // }
+    const errorObject = { errorName, errorEmail, errorPassword };
+    return errorObject;
+  };
+  const reset = () => {
+    setName("");
+    setEmail("");
+    setPassword("");
+    setError(false);
+    setErrorName(false);
+    setErrorEmail(false);
+    setErrorPassword(false);
+  };
+  const register = (e) => {
+    e.preventDefault();
+    if (name == "" || email == "" || password == "") {
+      setError(true);
+      return;
+    }
+    const valid = validation(name, email, password);
+    const { errorName, errorEmail, errorPassword } = valid;
+    if (errorName || errorEmail || errorPassword) {
+      setErrorName(errorName);
+      setErrorEmail(errorEmail);
+      setErrorPassword(errorPassword);
+      return;
+    }
+    handleSignUp();
+    reset();
+  };
 
   return (
     <div className="login">
@@ -71,37 +95,50 @@ const Register = () => {
       {/* </Link> */}
 
       <div className="login__container">
-        <h1>Create Account</h1>
-        {error && <p style={{color:'red'}}>All Details Is Mandatory,Please Fill</p>}
+        <h2 style={{ textAlign: "center" }}>Create Account</h2>
+        {error && (
+          <p style={{ color: "red" }}>All Details Is Mandatory,Please Fill</p>
+        )}
         <form>
-          <label htmlFor="name">Name</label>
-          <input
+          <label
+            htmlFor="name"
+            style={{ marginTop: "10px", marginBottom: "10px" }}
+          >
+            Name
+          </label>
+          <TextField
+            fullWidth
             id="name"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          {errorName && <p style={{color:'red'}}>Name should atleast 3 character</p>}
+          {errorName && (
+            <p style={{ color: "red" }}>Name should atleast 3 character</p>
+          )}
           <label htmlFor="email">Email</label>
-          <input
-          id="email"
+          <TextField
+            fullWidth
+            id="email"
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          {errorEmail && <p style={{color:'red'}}>Please enter valid email</p>}
+          {errorEmail && (
+            <p style={{ color: "red" }}>Please enter valid email</p>
+          )}
           <label htmlFor="password">Password</label>
-          <input
-          id="password"
+          <TextField
+            fullWidth
+            id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          {errorPassword && <p style={{color:'red'}}>Password should atleast 6 character</p>}
-          <button
-            onClick={register}
-            className="login__signInButton"
-          >
+          {errorPassword && (
+            <p style={{ color: "red" }}>Password should atleast 6 character</p>
+          )}
+          <button onClick={register} className="login__signInButton">
             Register
           </button>
         </form>
@@ -111,6 +148,12 @@ const Register = () => {
           business account By creating an account or logging in, you agree to
           Amazon’s Conditions of Use and Privacy Policy.
         </p>
+        <button
+          onClick={() => navigate("/login")}
+          className="login__registerButton"
+        >
+          Already have an account
+        </button>
       </div>
     </div>
   );
