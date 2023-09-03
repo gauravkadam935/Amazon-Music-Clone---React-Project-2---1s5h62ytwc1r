@@ -118,7 +118,7 @@ function ResponsiveAppBar() {
               }}
             >
               <img
-                src="src\assets\logo3.png"
+                src="https://assets.stickpng.com/images/62b1e7e056b6848f8bec9034.png"
                 alt="logo"
                 width="80px"
                 height="100%"
