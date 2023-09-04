@@ -34,7 +34,6 @@ function ResponsiveAppBar() {
   const dispatch = useDispatch();
   const isLogin = useSelector((state) => state.user.isLogin);
   const user = useSelector((state) => state.user.user);
-
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };

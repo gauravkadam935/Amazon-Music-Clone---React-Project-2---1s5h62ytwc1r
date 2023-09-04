@@ -19,6 +19,7 @@ function Login() {
   const isUpdate = useSelector((state) => state.user.isUpdate);
   const user = useSelector((state) => state.user.user);
   const name = user.name;
+  console.log(name);
   const loginError = useSelector((state) => state.user.loginError);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -40,7 +41,6 @@ function Login() {
       password: password,
       appType: "music",
     };
-    console.log(data);
 
     try {
       const response = await fetch(url, {
@@ -57,8 +57,6 @@ function Login() {
       if (response.ok) {
         const token = responseData.token;
         console.log("Token:", token);
-        // localStorage.setItem("sound_cloud_token", JSON.stringify(token));
-        // localStorage.setItem("responseData", JSON.stringify(responseData));
         const userDetails = {
           name: responseData.data.name,
           email: responseData.data.email,
@@ -73,7 +71,7 @@ function Login() {
       }
     } catch (error) {
       setLoginFail(true);
-      setMessage(responseData.message);
+      // setMessage(responseData.message);
       console.error("Error:", error);
     }
   };
@@ -95,7 +93,7 @@ function Login() {
   // {"status":"success","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZTc1YmRlYzhmN2MxZDY1OTkyZDBjNyIsImlhdCI6MTY5MzEzODU1NywiZXhwIjoxNzI0Njc0NTU3fQ.DGJMV7iWizt0HfKeQ9jdU1C60sKcINUxjU6Y9QZSSWA","data":{"_id":"64e75bdec8f7c1d65992d0c7","name":"abcde","email":"admin@gmail.com","password":"$2a$10$3W7CEEfbGcMLxP/AQrCqWeVhMbDum5EmJIkeH0favx3dfDMjNT.Ja","skills":[],"workExprience":[],"education":[],"createdAt":"2023-08-24T13:32:14.229Z","__v":0}}
   const handleUpdatePassword = async () => {
     const updatedData = {
-      name,
+      name: name,
       email: email,
       passwordCurrent: password,
       password: newPassword,
