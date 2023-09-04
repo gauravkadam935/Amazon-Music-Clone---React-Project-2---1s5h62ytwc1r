@@ -1,18 +1,28 @@
-import { Card,CardMedia,CardContent,Box, Stack, Typography,Button } from "@mui/material";
+import {
+  Card,
+  CardMedia,
+  CardContent,
+  Box,
+  Stack,
+  Typography,
+  Button,
+} from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/dist/css/themes/splide-default.min.css";
 import Loader from "../Loader/Loader";
+import SongCard from "../AmazonMusic/components/Card/songCard";
 
 const SearchedSongs = () => {
   const navigate = useNavigate();
-  const loading = useSelector(state=>state.selectedAlbum.loading);
-  const searchedSongs = useSelector(state=>state.searchedSong.searchedSong);
+  const loading = useSelector((state) => state.selectedAlbum.loading);
+  const searchedSongs = useSelector((state) => state.searchedSong.searchedSong);
   console.log(searchedSongs);
-  if(loading) return <Loader/>
-  if(searchedSongs?.length==0) return <h1 style={{color:"white"}}>NO SONGS FOUND</h1>
+  if (loading) return <Loader />;
+  if (searchedSongs?.length == 0)
+    return <h1 style={{ color: "white" }}>NO SONGS FOUND</h1>;
   return (
     <Box
       className="songcard"
@@ -62,25 +72,7 @@ const SearchedSongs = () => {
               }}
               // ref={boxRef}
             >
-              <Card
-                sx={{ bgcolor: "black", color: "white" }}
-                onClick={() => navigate(`/playlist/${song.album}`)}
-              >
-                <CardMedia
-                  component="img"
-                  height="150"
-                  image={song.thumbnail}
-                  alt={song.title}
-                />
-                <CardContent>
-                  <Typography variant="body2" overflow="hidden">
-                    {song.title}
-                  </Typography>
-                  <Typography variant="body2" color="0011">
-                    {song.artists}
-                  </Typography>
-                </CardContent>
-              </Card>
+              <SongCard song={song} />
             </Stack>
           </SplideSlide>
         ))}

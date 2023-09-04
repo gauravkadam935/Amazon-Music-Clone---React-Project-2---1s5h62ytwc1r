@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 import React from "react";
 import axios from "axios";
 import { styled, alpha } from "@mui/material/styles";
@@ -78,12 +77,16 @@ const SearchComponent = () => {
     e.preventDefault();
     fetchCall();
     navigate("/searchedsongs");
+    setInput("");
   };
-  // console.log(songs);
   return (
     <form onSubmit={handleSubmit}>
       <Search
-        sx={{ bgcolor: "white", color: "#434242" }}
+        sx={{
+          bgcolor: "white",
+          color: "#434242",
+          ":hover": { bgcolor: "white" },
+        }}
         onClick={() => navigate("/search")}
       >
         <SearchIconWrapper>
