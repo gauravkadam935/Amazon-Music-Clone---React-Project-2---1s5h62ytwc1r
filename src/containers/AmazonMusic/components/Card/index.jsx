@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useLayoutEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 
 import IconButton from "@mui/material/IconButton";
@@ -37,11 +37,11 @@ export default function Cards({ filter, musicPlayList }) {
   const songs = useSelector((state) => state.albums.albums);
 
   const [perPage, setPerPage] = useState(
-    window.innerWidth < 900 ? (window.innerWidth < 600 ? 2.5 : 4.5) : 6.5
+    window.innerWidth < 900 ? (window.innerWidth < 600 ? 2.5 : 5.5) : 6.5
   );
-  useEffect(() => {
+  useLayoutEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 400) setPerPage(1.5);
+      if (window.innerWidth < 400) setPerPage(2.5);
       else if (window.innerWidth < 600) setPerPage(2.5);
       else if (window.innerWidth < 900) setPerPage(3.5);
       else setPerPage(4.5);
