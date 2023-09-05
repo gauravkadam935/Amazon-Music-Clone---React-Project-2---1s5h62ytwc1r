@@ -36,14 +36,14 @@ const Register = () => {
       if (responseData.status === "fail") {
         alert(responseData.message);
       } else {
-        const userDetails = {
-          name: responseData.data.user.name,
-          email: responseData.data.user.email,
-          token: responseData.token,
-        };
-        console.log(userDetails.name);
+        // const userDetails = {
+        //   name: responseData.data.user.name,
+        //   email: responseData.data.user.email,
+        //   token: responseData.token,
+        // };
+        // console.log(userDetails.name);
         // dispatch(setIsLogin(true));
-        dispatch(setUser({ userDetails }));
+        // dispatch(setUser({ userDetails }));
         navigate("/login");
       }
     } catch (error) {

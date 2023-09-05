@@ -256,7 +256,7 @@ function ResponsiveAppBar() {
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 {isLogin ? (
                   <Avatar sx={{ bgcolor: deepOrange[500] }}>
-                    {user?.name?.charAt(0) || ""}
+                    {user?.name || ""}
                   </Avatar>
                 ) : (
                   <Avatar alt="Remy Sharp" src="" />
