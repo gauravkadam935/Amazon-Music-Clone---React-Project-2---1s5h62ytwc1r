@@ -6,11 +6,11 @@ import {
   setUser,
   setIsLogin,
   updatePassword,
+  setStatusFail,
 } from "../../App/features/userSlice";
 import { setLoginError } from "../../App/features/selectedAlbumSlice";
 import { useDispatch } from "react-redux";
 import ErrorPage from "../Error/Error";
-import axios from "axios";
 import TextField from "@mui/material/TextField";
 
 function Login() {
@@ -18,9 +18,8 @@ function Login() {
   const isLogin = useSelector((state) => state.user.isLogin);
   const isUpdate = useSelector((state) => state.user.isUpdate);
   const user = useSelector((state) => state.user.user);
-  const name = user.name;
-  console.log(name);
-  const loginError = useSelector((state) => state.user.loginError);
+  const loginError = useSelector((state) => state.selectedAlbum.loginError);
+  const statusFail = useSelector((state) => state.user.statusFail);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -66,12 +65,12 @@ function Login() {
         dispatch(setUser({ userDetails }));
         dispatch(setIsLogin(true));
       } else {
-        dispatch(setLoginError(true));
+        dispatch(setStatusFail(true));
         console.error("Login was not successful:", responseData);
       }
     } catch (error) {
       setLoginFail(true);
-      // setMessage(responseData.message);
+      setMessage(error.message);
       console.error("Error:", error);
     }
   };
@@ -120,9 +119,7 @@ function Login() {
   };
   return (
     <div className="login">
-      {loginFail && <p style={{ color: "red" }}>Incorrect Email Or Password</p>}
-      {loginError && <ErrorPage msg={message} />}
-      {/* <Link to='/'> */}
+      {loginFail && <ErrorPage msg={message} />}
       <img
         className="login__logo"
         src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/1024px-Amazon_logo.svg.png"
@@ -132,6 +129,9 @@ function Login() {
 
       <div className="login__container">
         <h2 style={{ textAlign: "center" }}>Sign-in</h2>
+        {statusFail && (
+          <p style={{ color: "red" }}>Incorrect Email Or Password</p>
+        )}
         {error && (
           <p style={{ color: "red" }}>All Details Is Mandatory,Please Fill</p>
         )}

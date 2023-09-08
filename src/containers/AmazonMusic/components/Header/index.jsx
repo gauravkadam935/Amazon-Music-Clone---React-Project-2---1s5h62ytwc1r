@@ -259,7 +259,16 @@ function ResponsiveAppBar() {
                     {user?.name.charAt(0) || ""}
                   </Avatar>
                 ) : (
-                  <Avatar alt="Remy Sharp" src="" />
+                  <Button
+                    size="small"
+                    sx={{
+                      bgcolor: "green",
+                      color: "white",
+                      ":hover": { bgcolor: "green" },
+                    }}
+                  >
+                    Log In
+                  </Button>
                 )}
               </IconButton>
             </Tooltip>

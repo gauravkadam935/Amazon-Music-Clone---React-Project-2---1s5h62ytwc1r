@@ -110,9 +110,6 @@ const Player = () => {
       dispatch(setAudioTrackIndex({ audioTrackIndex: 0 }));
     } else
       dispatch(setAudioTrackIndex({ audioTrackIndex: currentTrackIndex + 1 }));
-    // setCurrentTrackIndex((prevTrack) =>
-    //   prevTrack == audioTrack.length - 1 ? 0 : prevTrack + 1
-    // );
     audioRef.current.currentTime = 0;
   };
 
@@ -121,9 +118,6 @@ const Player = () => {
       dispatch(setAudioTrackIndex({ audioTrackIndex: audioTrack.length - 1 }));
     else
       dispatch(setAudioTrackIndex({ audioTrackIndex: currentTrackIndex - 1 }));
-    // setCurrentTrackIndex((prevTrack) =>
-    //   prevTrack == 0 ? audioTrack.length - 1 : prevTrack - 1
-    // );
     audioRef.current.currentTime = 0;
   };
 

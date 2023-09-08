@@ -10,6 +10,7 @@ import {
   Button,
   IconButton,
 } from "@mui/material";
+import Snackbar from "@mui/material/Snackbar";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 import CopyAllIcon from "@mui/icons-material/CopyAll";
 
@@ -24,9 +25,10 @@ import {
 } from "../../utils/customHook";
 import { FacebookRounded, Twitter } from "@mui/icons-material";
 
-const BASE_URL = "http://localhost:5173";
+const BASE_URL = `https://amazon-music-clone-app.netlify.app`;
 
 const ShareModal = ({ open, close, title, description, imgSrc, _id }) => {
+  const [openS, setOpen] = React.useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const pathname = location.pathname;
@@ -40,8 +42,25 @@ const ShareModal = ({ open, close, title, description, imgSrc, _id }) => {
   const twitterShare = () => {
     shareOnTwitter(title, BASE_URL + pathname);
   };
+  const handleClick = () => {
+    copyToClipboard(BASE_URL + pathname);
+    setOpen(true);
+  };
+
+  const handleClosee = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
   return (
     <>
+      <Snackbar
+        open={openS}
+        autoHideDuration={3000}
+        onClose={handleClosee}
+        message="Copied Successfully"
+      />
       <Modal
         open={open}
         onClose={handleClose}
@@ -168,7 +187,11 @@ const ShareModal = ({ open, close, title, description, imgSrc, _id }) => {
                 <Typography variant="body2" color="rgba(255, 255, 255, 0.6)">
                   Share link
                 </Typography>
-                <Typography variant="body1" color="#FFF">
+                <Typography
+                  variant="body1"
+                  color="#FFF"
+                  sx={{ fontSize: "12px" }}
+                >
                   {BASE_URL + pathname}
                 </Typography>
               </Box>
@@ -185,6 +208,7 @@ const ShareModal = ({ open, close, title, description, imgSrc, _id }) => {
                   <Fab
                     size="small"
                     sx={{
+                      mr: 2,
                       bgcolor: "hsl(0, 1%, 26%)",
                       color: "white",
                       ":hover": {
@@ -202,7 +226,7 @@ const ShareModal = ({ open, close, title, description, imgSrc, _id }) => {
                       bgcolor: "hsl(0, 1%, 26%)",
                       color: "white",
                       size: "small",
-                      mr: 2,
+
                       ":hover": {
                         backgroundColor: "hsl(0, 1%, 15%)",
                         transform: "scale(1.1)",
@@ -226,7 +250,7 @@ const ShareModal = ({ open, close, title, description, imgSrc, _id }) => {
                         transform: "scale(1.1)",
                       },
                     }}
-                    onClick={() => copyToClipboard(BASE_URL + pathname)}
+                    onClick={handleClick}
                   >
                     <CopyAllIcon />
                     <Typography

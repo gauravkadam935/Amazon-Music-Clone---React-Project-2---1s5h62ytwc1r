@@ -8,8 +8,12 @@ const ErrorPage = ({ msg }) => {
         <WarningAmberIcon color="error" fontSize="large" />
       </div>
       <div className="alert">
-        <h4 className="alert-text">There was a problem</h4>
-        <p className="alert-message">{msg}</p>
+        <h4 className="alert-text" style={{ color: "red" }}>
+          There was a problem
+        </h4>
+        <p className="alert-message" style={{ color: "red" }}>
+          {msg}
+        </p>
       </div>
     </div>
   );
