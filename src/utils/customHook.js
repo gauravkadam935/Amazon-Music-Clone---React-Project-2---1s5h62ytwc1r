@@ -16,7 +16,8 @@ export const config = {
 };
 
 export const AUTH_URL = "https://academics.newtonschool.co/api/v1/user/login";
-export const SONG_URL = "https://academics.newtonschool.co/api/v1/music/song";
+export const SONG_URL =
+  "https://academics.newtonschool.co/api/v1/music/song?page=1&limit=100";
 export const ALBUM_URL = "https://academics.newtonschool.co/api/v1/music/album";
 export const ALL_ARTISTS_URL =
   "https://academics.newtonschool.co/api/v1/music/artist/";
