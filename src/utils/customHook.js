@@ -52,9 +52,6 @@ export function useUserDetails() {
     if (userSavedDetails.token) {
       dispatch(setUser({ userDetails: userSavedDetails }));
     }
-    // if(savedUserSongs.length>0){
-    //   dispatch(setSavedSongs({}))
-    // }
   }, []);
 
   useEffect(() => {
