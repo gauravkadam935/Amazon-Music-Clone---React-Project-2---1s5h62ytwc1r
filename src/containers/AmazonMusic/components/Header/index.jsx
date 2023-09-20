@@ -113,14 +113,14 @@ function ResponsiveAppBar() {
             <IconButton
               sx={{
                 p: 0,
+                width: "30px",
                 display: { xs: "block", s: "block", md: "none", lg: "none" },
               }}
             >
               <img
-                src="https://assets.stickpng.com/images/62b1e7e056b6848f8bec9034.png"
+                src="https://d5fx445wy2wpk.cloudfront.net/static/logo_stacked.svg"
                 alt="logo"
-                width="80px"
-                height="100%"
+                width="100%"
               />
             </IconButton>
           </Typography>
